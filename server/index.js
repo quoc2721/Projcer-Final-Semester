@@ -1,10 +1,13 @@
+import dotenv from "dotenv";
+dotenv.config({ silent: process.env.NODE_ENV === "production" });
 import express from "express";
 import mongoose from "mongoose";
+import authRouter from "./router/auth.router.js";
 
 const connectDB = async () => {
   try {
     await mongoose.connect(
-      `mongodb+srv://admin:4PDBCys5KnO913NH@project-final-semester.epvywgf.mongodb.net/?retryWrites=true&w=majority`
+      `mongodb+srv://${process.env.DB_USERNAME}:${process.env.DB_PASSWORD}@project-final-semester.epvywgf.mongodb.net/?retryWrites=true&w=majority`
     );
 
     console.log("MongoDb connected");
@@ -16,8 +19,9 @@ const connectDB = async () => {
 
 connectDB();
 const app = express();
+app.use(express.json());
 
-app.get("/", (req, res) => res.send("Hello World"));
+app.use("/api/auth", authRouter);
 
 const PORT = 5000;
 
