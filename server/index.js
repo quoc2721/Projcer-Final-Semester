@@ -3,6 +3,7 @@ dotenv.config({ silent: process.env.NODE_ENV === "production" });
 import express from "express";
 import mongoose from "mongoose";
 import authRouter from "./router/auth.router.js";
+import postRouter from "./router/post.router.js";
 
 const connectDB = async () => {
   try {
@@ -22,6 +23,7 @@ const app = express();
 app.use(express.json());
 
 app.use("/api/auth", authRouter);
+app.use("/api/posts", postRouter); // 1h10p27s
 
 const PORT = 5000;
 
